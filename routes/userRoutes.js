@@ -1,5 +1,5 @@
 import userControllers from "../controllers/userControllers.js";
-async function userRoutes(fastify, opts) {
+async function userRoutes(fastify) {
 	// Route to get all users
 	fastify.get("/user", userControllers.getAllUsers);
 

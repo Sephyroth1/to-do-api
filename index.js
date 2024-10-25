@@ -4,13 +4,15 @@ import fastifyCors from "@fastify/cors";
 import fastifyMysql from "@fastify/mysql";
 import fastifyJwt from "@fastify/jwt";
 import userRoutes from "./routes/userRoutes.js";
-import { configDotenv } from "dotenv";
 
-configDotenv();
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = fastify({
 	logger: true,
 });
+
 const PORT = process.env.PORT || 3000;
 
 await app.register(fastifyMysql, {
@@ -41,9 +43,10 @@ await app.register(userRoutes, { prefix: "/api/" });
 
 const startServer = async () => {
 	try {
-		await app.listen({ port: PORT });
-		app.log.info(`Server is running on the port: ${app.server.address().port}`);
+		app.listen({ port: process.env.PORT });
+		app.log.info(`Server is running on the port: ${process.env.PORT}`);
 	} catch (error) {
+		console.log(error);
 		app.log.error(error.message);
 		process.exit(1);
 	}

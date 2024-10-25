@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 export const getAllUsers = async (request, reply) => {
 	console.log(request.server.mysql);
@@ -42,7 +42,7 @@ async function createUser(request, reply) {
 		const { username, email, password } = request.body;
 
 		// Hash the password before insertion
-		const hashedPassword = await bcrypt.hash(password, 10);
+		const hashedPassword = await bcryptjs.hash(password, 10);
 
 		const [result] = await connection.query(
 			"INSERT INTO user (username, email, password) VALUES (?, ?, ?)", // Corrected SQL syntax
@@ -81,7 +81,7 @@ async function updateUserDetails(request, reply) {
 
 		// Hash the new password if provided
 		const newHashedPassword = password
-			? await bcrypt.hash(password, 10)
+			? await bcryptjs.hash(password, 10)
 			: userQuery[0].password; // Keep the existing password if no new one is provided
 
 		const newUsername = username || userQuery[0].username;
